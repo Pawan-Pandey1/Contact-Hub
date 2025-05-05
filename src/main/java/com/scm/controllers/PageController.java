@@ -98,7 +98,7 @@ public class PageController {
             return "register";
         }
 
-        // TODO::Validate userForm[Next Video]
+        // TODO::Validate userForm
 
         // save to database
 
