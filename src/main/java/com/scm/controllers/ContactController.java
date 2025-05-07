@@ -24,6 +24,7 @@ import com.scm.helpers.Helper;
 import com.scm.helpers.Message;
 import com.scm.helpers.MessageType;
 import com.scm.services.ContactService;
+import com.scm.services.ImageService;
 // import com.scm.services.ImageService;
 import com.scm.services.UserService;
 
@@ -39,8 +40,8 @@ public class ContactController {
     @Autowired
     private ContactService contactService;
 
-    // @Autowired
-    // private ImageService imageService;
+    @Autowired
+    private ImageService imageService;
 
     @Autowired
     private UserService userService;
@@ -83,6 +84,10 @@ public class ContactController {
         // image process
 
         // uplod karne ka code
+        String filename=UUID.randomUUID().toString();
+        String fileURL=imageService.uploadImage(contactForm.getContactImage(),filename);
+
+
         Contact contact = new Contact();
         contact.setName(contactForm.getName());
         contact.setFavorite(contactForm.isFavorite());
@@ -93,6 +98,8 @@ public class ContactController {
         contact.setUser(user);
         contact.setLinkedInLink(contactForm.getLinkedInLink());
         contact.setWebsiteLink(contactForm.getWebsiteLink());
+        contact.setPicture(fileURL);
+        contact.setCloudinaryImagePublicId(filename);
 
         // if (contactForm.getContactImage() != null && !contactForm.getContactImage().isEmpty()) {
         //     String filename = UUID.randomUUID().toString();
@@ -101,18 +108,18 @@ public class ContactController {
         //     contact.setCloudinaryImagePublicId(filename);
 
         // }
-        //contactService.save(contact);
+        contactService.save(contact);
         System.out.println(contactForm);
 
         // 3 set the contact picture url
 
-        // 4 `set message to be displayed on the view
+        // 4 set message to be displayed on the view
 
         session.setAttribute("message",
                 Message.builder()
                         .content("You have successfully added a new contact")
                         .type(MessageType.green)
-                        .build());
+                        .build()); 
 
         return "redirect:/user/contacts/add";
 

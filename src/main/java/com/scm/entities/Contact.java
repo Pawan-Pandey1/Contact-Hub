@@ -35,6 +35,7 @@ public class Contact {
     private String websiteLink;
     private String linkedInLink;
     //private List<String>socialLink=new ArrayList<>();
+    private String cloudinaryImagePublicId;
 
     @ManyToOne
     private User user;
