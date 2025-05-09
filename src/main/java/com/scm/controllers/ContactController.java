@@ -126,16 +126,23 @@ public class ContactController {
     }
     //View Contacts
     @RequestMapping()
-    public String viewContacts(Model model,Authentication authentication){
+    public String viewContacts(
+    @RequestParam(value = "page",defaultValue = "0") int page,
+    @RequestParam(value = "size", defaultValue = "10") int size,
+    @RequestParam(value = "sortBy",defaultValue = "name") String  sortBy,
+    @RequestParam(value = "direction",defaultValue ="asc" ) String direction, Model model,Authentication authentication){
 
         //Load all the user contacts
         String username= Helper.getEmailOfLoggedInUser(authentication);
         
         User user=userService.getUserByEmail(username);
        
-        List<Contact> contacts= contactService.getByUser(user);
+        Page<Contact> pageContact= contactService.getByUser(user,page,size,sortBy,direction);
        
-        model.addAttribute("contacts", contacts);
+
+        model.addAttribute("pageContact", pageContact);
+        model.addAttribute("pageSize", AppConstants.PAGE_SIZE);
+        
         
         return "user/contacts";
     }
