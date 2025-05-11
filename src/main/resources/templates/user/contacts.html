@@ -119,9 +119,9 @@
                                         </a>
 
                                         <!--View-->
-                                        <a href="">
+                                        <button th:onclick="loadContactData([[${c.id}]])">
                                             <i class="fa-solid fa-eye"></i>
-                                        </a>
+                                        </button>
                                         
                                     </div>
                                 </td>
@@ -172,9 +172,10 @@
                 </div>
              </div>
             </div>
+            <div data-th-replace="~{user/contact_modals :: contact}"> </div>
          </div>
     </div>
-    <script>
+    <script data-th-src="@{'/js/contacts.js'}"></script>
         console.log("this is a profile page");
     </script>
 </body>
