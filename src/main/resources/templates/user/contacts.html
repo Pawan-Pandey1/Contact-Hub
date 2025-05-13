@@ -18,7 +18,10 @@
              <div class="contacts_container p-5">
                
                 <div class="relative overflow-x-auto shadow-md sm:rounded-lg">
-                   <form data-th-object="${contactSearchForm}" action="" data-th-action="@{'/user/contacts/search'}">
+                   
+                    <div data-th-replace="~{message :: messagebox}"></div>
+                   
+                    <form data-th-object="${contactSearchForm}" action="" data-th-action="@{'/user/contacts/search'}">
                     <div class="flex space-x-3 p-5 items-center justify-start flex-column flex-wrap md:flex-row space-y-4 md:space-y-0 pb-4 bg-white dark:bg-gray-900">
                         <!--Selecet box-->
                         <div>
@@ -109,17 +112,18 @@
                                 <td class="px-6 py-4">
                                     <div>
                                         <!--Delete-->
-                                        <a href="">
+                                        <button th:onclick="deleteContact([[${c.id}]])">
                                             <i class="fa-solid w-6 h-6 fa-trash"></i>
-                                        </a>
+                                        </button>
 
                                         <!--Update-->
-                                        <a href="">
-                                            <i class="fa-solid w-6 h-6 fa-pen"></i>
-                                        </a>
-
+                                        <a data-th-href="@{'/user/contacts/view/'+*{id}}">
+                                            <i class="fa-solid w-6 h-6 fa-pen"></i
+                                        ></a>
+                                        
                                         <!--View-->
-                                        <button th:onclick="loadContactData([[${c.id}]])">
+                                        <!--Check how double sqaure bracket works-->
+                                        <button th:onclick="loadContactdata([[${c.id}]])">
                                             <i class="fa-solid fa-eye"></i>
                                         </button>
                                         
