@@ -76,7 +76,7 @@ public class PageController {
 
         UserForm userForm = new UserForm();
         // default data bhi daal sakte hai
-        // userForm.setName("Durgesh");
+        // userForm.setName("Pawan");
         // userForm.setAbout("This is about : Write something about yourself");
         model.addAttribute("userForm", userForm);
 
@@ -112,7 +112,7 @@ public class PageController {
         // .about(userForm.getAbout())
         // .phoneNumber(userForm.getPhoneNumber())
         // .profilePic(
-        // "https://www.learncodewithdurgesh.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75")
+        // "https://www.pawan.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75")
         // .build();
 
         User user = new User();
@@ -121,7 +121,7 @@ public class PageController {
         user.setPassword(userForm.getPassword());
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setEnabled(true);
+        user.setEnabled(false);
         user.setProfilePic(
                 "https://www.learncodewithdurgesh.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75");
 
