@@ -1,24 +1,71 @@
 <!DOCTYPE html>
-<html
-  lang="en"
-  th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
->
-  <head>
-    <title>About Page</title>
-  </head>
-  <body>
-    <div id="content">
-      <h1>Welcome to about page</h1>
-      <p>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequatur,
-        ratione!
-      </p>
-    </div>
-    <script>
-      console.log("about page");
-    </script>
-    <script>
-      console.log("second about page script");
-    </script>
-  </body>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
+<head>
+  <title>About Us</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+</head>
+<body>
+  <div id="content" class="bg-gray-50 min-h-screen dark:bg-gray-800 dark:text-white">
+    <!-- Header Section -->
+    <header class="bg-blue-600 text-white py-12 dark:bg-blue-800 dark:text-gray-200">
+      <div class="container mx-auto text-center">
+        <h1 class="text-4xl font-bold">About ContactHub</h1>
+        <p class="text-lg mt-2">Revolutionizing Contact Management for Everyone</p>
+      </div>
+    </header>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-white dark:bg-gray-700">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-8">Why Choose ContactHub?</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Feature 1 -->
+          <div class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition dark:bg-gray-800 dark:hover:bg-gray-700">
+            <i class="fas fa-user-plus text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-xl font-semibold mb-2">Easy Contact Management</h3>
+            <p class="text-gray-600 dark:text-gray-300">Quickly add, edit, and organize your contacts using an intuitive interface.</p>
+          </div>
+          <!-- Feature 2 -->
+          <div class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition dark:bg-gray-800 dark:hover:bg-gray-700">
+            <i class="fas fa-lock text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-xl font-semibold mb-2">Top-Notch Security</h3>
+            <p class="text-gray-600 dark:text-gray-300">Keep your data safe with end-to-end encryption and robust security features.</p>
+          </div>
+          <!-- Feature 3 -->
+          <div class="p-6 bg-white rounded-lg shadow-lg hover:shadow-xl transition dark:bg-gray-800 dark:hover:bg-gray-700">
+            <i class="fas fa-cloud text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-xl font-semibold mb-2">Cloud Backup</h3>
+            <p class="text-gray-600 dark:text-gray-300">Access your contacts anytime, anywhere with seamless cloud integration.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="bg-blue-600 text-white py-16 dark:bg-blue-800 dark:text-gray-200">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold mb-4">Our Mission</h2>
+        <p class="text-lg max-w-2xl mx-auto">
+          At ContactHub, our goal is to simplify the way you manage your contacts. Whether you're a business professional or an individual, we aim to provide the tools you need to stay connected effortlessly.
+        </p>
+      </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="py-16 bg-white dark:bg-gray-700">
+      <div class="container mx-auto text-center">
+        <h2 class="text-3xl font-bold text-gray-800 dark:text-gray-200 mb-4">Join Us Today!</h2>
+        <p class="text-lg text-gray-600 dark:text-gray-300 mb-8">Experience the future of contact management. Get started now!</p>
+        <a href="/register" 
+           class="bg-blue-600 text-white px-6 py-3 rounded-full font-semibold hover:bg-blue-700 dark:bg-blue-700 dark:hover:bg-blue-600 transition duration-300">
+           Sign Up Now
+        </a>
+      </div>
+    </section>
+  </div>
+
+  <script>
+    console.log("About page script loaded.");
+  </script>
+</body>
 </html>

@@ -1,16 +1,128 @@
 <!DOCTYPE html>
-<html lang="en" th:replace="~{base :: parent(~{:: #content},~{:: title},~{})}">
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}">
 <head>
-    <title>Services Page</title>
+  <title>Our Services</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <style>
+    /* Custom Animations */
+    @keyframes float {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-10px);
+      }
+    }
+    .floating {
+      animation: float 3s infinite;
+    }
+
+    /* Box Shadow Effect */
+    .service-box {
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+    }
+    .service-box:hover {
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transform: translateY(-5px);
+    }
+  </style>
 </head>
 <body>
-    <section id="content">
-        <h1>Welcome to services page</h1>
-        <h2>Services offered by SCM</h2>
-        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Praesentium dolor sed illo, beatae quas accusantium itaque maiores assumenda aliquid perspiciatis!</p>
+  <div id="content" class="bg-gray-50 min-h-screen dark:bg-gray-900 dark:text-gray-100">
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden bg-blue-600 text-white dark:bg-blue-800">
+      <div class="container mx-auto text-center py-24 relative z-10">
+        <h1 class="text-5xl font-extrabold mb-4 animate__animated animate__fadeInDown">
+          Explore Our Services
+        </h1>
+        <p class="text-lg max-w-xl mx-auto">
+          Discover a comprehensive range of features to elevate your contact management experience.
+        </p>
+        <a href="/register" 
+           class="mt-8 inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition">
+           Get Started
+        </a>
+      </div>
+      <div class="absolute inset-0 bg-gradient-to-t from-blue-700 to-transparent opacity-40"></div>
+    </header>
+
+    <!-- Services Section -->
+    <section class="py-16 bg-white dark:bg-gray-800">
+      <div class="container mx-auto">
+        <h2 class="text-4xl font-bold text-center text-gray-800 dark:text-gray-100 mb-12">
+          Our Services
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <!-- Service 1 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-address-card text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Save Contacts</h3>
+            <p>Keep all your contacts organized and easily accessible in one place.</p>
+          </div>
+          <!-- Service 2 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-edit text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Update Contacts</h3>
+            <p>Edit contact details effortlessly to keep your address book up-to-date.</p>
+          </div>
+          <!-- Service 3 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-trash text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Delete Contacts</h3>
+            <p>Remove outdated or duplicate contacts with ease.</p>
+          </div>
+          <!-- Service 4 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-cloud text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Cloud Backup</h3>
+            <p>Securely back up your contacts to the cloud for access anywhere.</p>
+          </div>
+          <!-- Service 5 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-user-circle text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Personal Profiles</h3>
+            <p>Enhance your profile with photos and personalized details.</p>
+          </div>
+          <!-- Service 6 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-search text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Search Contacts</h3>
+            <p>Quickly find any contact in your database with our powerful search tools.</p>
+          </div>
+          <!-- Service 7 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fab fa-google text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Google & GitHub Login</h3>
+            <p>Log in securely using your Google or GitHub accounts.</p>
+          </div>
+          <!-- Service 8 -->
+          <div class="service-box p-6 bg-white rounded-lg shadow-md dark:bg-gray-700">
+            <i class="fas fa-envelope text-blue-600 text-4xl mb-4 dark:text-blue-400"></i>
+            <h3 class="text-2xl font-bold mb-2">Email Verification</h3>
+            <p>Ensure secure access with email-based verification for first-time users.</p>
+          </div>
+        </div>
+      </div>
     </section>
-    <script>
-        console.log("service page")
-    </script>
+
+    <!-- Call to Action Section -->
+ <section class="bg-blue-600 text-white py-16 dark:bg-blue-800">
+  <div class="container mx-auto text-center">
+    <h2 class="text-3xl font-bold mb-4">Join Us Today</h2>
+    <p class="text-lg max-w-2xl mx-auto mb-8">
+      Experience the best way to manage your contacts with ContactHub.
+    </p>
+    <a href="/register" 
+       class="inline-block bg-white text-blue-600 px-8 py-3 rounded-full font-semibold hover:bg-gray-100 dark:bg-gray-700 dark:text-white dark:hover:bg-gray-600 transition mt-4">
+       Sign Up Now
+    </a>
+  </div>
+</section>
+
+  </div>
+
+  <script>
+    console.log("Enhanced Services Page Loaded.");
+  </script>
 </body>
 </html>
