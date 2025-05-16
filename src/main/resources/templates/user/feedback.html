@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html
+  lang="en"
+  th:replace="~{base :: parent(~{::#content},~{::title},~{::script})}"
+>
+<head>
+  <title data-th-text="${loggedInUser.name}+' | SCM'">Feedback Page</title>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 transition-colors duration-300">
+  <div id="content">
+    <!-- sidebar -->
+    <div th:if="${loggedInUser}">
+      <div data-th-replace="~{user/sidebar :: sidebar}"></div>
+    </div>
+
+    <!-- Feedback Form -->
+    <div class="sm:pl-64 pt-20 flex justify-center items-center min-h-screen">
+      <div
+        class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg rounded-lg p-6 w-full max-w-md transition-colors duration-300"
+      >
+        <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 text-center">
+          Rate your experience
+        </h2>
+        <p class="text-sm text-gray-600 dark:text-gray-400 mb-6 text-center">
+          We highly value your feedback! Kindly take a moment to rate your
+          experience and provide us with your valuable feedback.
+        </p>
+        <!-- Rating Stars -->
+        <div class="stars flex justify-center mb-4">
+          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
+            &#9733;
+          </button>
+          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
+            &#9733;
+          </button>
+          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
+            &#9733;
+          </button>
+          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
+            &#9733;
+          </button>
+          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
+            &#9733;
+          </button>
+        </div>
+        <!-- Feedback Textarea -->
+        <textarea
+          class="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 focus:outline-none text-sm transition-colors duration-300"
+          rows="4"
+          placeholder="Tell us about your experience!"
+        ></textarea>
+        <!-- Submit Button -->
+        <button
+          class="w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg mt-4 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+          type="button"
+        >
+          Send
+        </button>
+      </div>
+    </div>
+  </div>
+  <script src="path-to-your-script.js"></script>
+</body>
+</html>

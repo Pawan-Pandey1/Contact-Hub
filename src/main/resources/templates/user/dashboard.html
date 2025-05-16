@@ -1,25 +1,112 @@
 <!DOCTYPE html>
 <html lang="en" th:replace="~{base :: parent(~{::#content}, ~{::title}, ~{::script})}">
 <head>
-    <title data-th-text="${loggedInUser.name}+' |  Dashboard'">Profile Page</title>
+    <title data-th-text="${loggedInUser.name}+' |  Dashboard'">Dashboard</title>
 </head>
 <body>
     <div id="content">
-        <!--Sidebar-->
-        <!--  user is logged in : sidebar // wee only want the sidebar for profile and dashboard-->
+        <!-- Sidebar -->
         <div th:if="${loggedInUser}">
             <div data-th-replace="~{user/sidebar::sidebar}"></div>
         </div>
 
-        <div  class="sm:pl-64 pt-20" style="height: 1000px">
-            <div class="flex justify-center flex-col items-center">
-             <h1 class="text-5xl">Welcome to Dashboard page</h1>
-             <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Consequuntur asperiores odio earum quis, libero mollitia nulla rem labore quasi sapiente!</p>
+        <!-- Theme Toggle Button -->
+        <button id="theme_change_button" class="fixed top-4 right-4 px-4 py-2 bg-gray-800 text-white rounded">
+            <span>Dark</span> Mode
+        </button>
+
+        <!-- Main Content -->
+        <div class="sm:pl-64 pt-20">
+            <div class="p-8">
+                <h1 class="text-3xl font-bold mb-8">
+                    Welcome to your Dashboard, <span data-th-text="${loggedInUser.name}"></span>!
+                </h1>
+
+                <!-- Quick Actions -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-blue-100 dark:bg-blue-800 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                        <h2 class="text-lg font-semibold mb-2">Add New Contact</h2>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Easily add new contacts to your list.</p>
+                        <!-- For navigating to Contacts -->
+                          <!-- For navigating to Add Contact -->
+                        <a th:href="@{/user/contacts/add}" class="px-4 py-2 bg-blue-600  text-white rounded">
+                            Go to Add Contact
+                        </a> 
+                                           
+                    </div>
+
+                    <div class="bg-green-100 dark:bg-green-800 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                        <h2 class="text-lg font-semibold mb-2">My Contacts</h2>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">View and manage your saved contacts.</p>
+                        <a th:href="@{/user/contacts}" class="px-4 py-2 bg-green-600 text-white rounded">
+                            Go to Contacts
+                        </a>               
+                    </div>
+
+                    <div class="bg-purple-100 dark:bg-purple-900 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                        <h2 class="text-lg font-semibold mb-2">Feedback</h2>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">Share your experience with us.</p>
+                        <a th:href="@{/user/feedback}" class="inline-block bg-purple-500 hover:bg-purple-600 text-white py-2 px-4 rounded transition">Go</a>
+                    </div>
+
+                    <div class="bg-red-100 dark:bg-red-800 p-6 rounded-lg shadow-md hover:shadow-lg transition">
+                        <h2 class="text-lg font-semibold mb-2">View Profile</h2>
+                        <p class="text-sm text-gray-700 dark:text-gray-300 mb-4">View your profile and account details.</p>
+                        <a th:href="@{/user/profile}" class="inline-block bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded transition">Go</a>
+                    </div>
+
+                </div>
+
+                <!-- Statistics -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-xl font-semibold mb-4">Your Statistics</h2>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="text-center">
+                            <p class="text-2xl font-bold">120</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Total Contacts</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold">5</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Pending Requests</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold">30</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Feedback Given</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-2xl font-bold">8</p>
+                            <p class="text-sm text-gray-600 dark:text-gray-300">Profile Updates</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Activities -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
+                    <h2 class="text-xl font-semibold mb-4">Recent Activities</h2>
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="py-2 text-gray-700 dark:text-gray-300">Added a new contact: John Doe</li>
+                        <li class="py-2 text-gray-700 dark:text-gray-300">Updated profile information</li>
+                        <li class="py-2 text-gray-700 dark:text-gray-300">Shared feedback on \"ContactHub\"</li>
+                        <li class="py-2 text-gray-700 dark:text-gray-300">Exported contact list</li>
+                    </ul>
+                </div>
+
+                <!-- Notifications -->
+                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
+                    <h2 class="text-xl font-semibold mb-4">Notifications</h2>
+                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
+                        <li class="py-2 text-gray-700 dark:text-gray-300">Your profile was updated successfully.</li>
+                        <li class="py-2 text-gray-700 dark:text-gray-300">New feedback received from admin.</li>
+                        <li class="py-2 text-gray-700 dark:text-gray-300">3 new contacts added to your list.</li>
+                        <li class="py-2 text-gray-700 dark:text-gray-300">Reminder: Update your profile picture.</li>
+                    </ul>
+                </div>
             </div>
-         </div>
+        </div>
     </div>
-    <script>
-        console.log("this is a profile page");
-    </script>
+
+    <!-- Script Reference -->
+    <script src="script.js"></script>
 </body>
 </html>
+
