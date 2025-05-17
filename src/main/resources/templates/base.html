@@ -10,49 +10,68 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title data-th-replace="${title}">SCM</title>
 
+    <!-- Flowbite CSS -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/flowbite/2.3.0/flowbite.min.css"
       rel="stylesheet"
     />
 
     <!-- SweetAlert's CSS -->
-    <link rel="stylesheet" href="{% static 'path/to/sweetalert2.min.css' %}">
+    <link rel="stylesheet" href="{% static 'path/to/sweetalert2.min.css' %}" />
 
+    <!-- Custom CSS -->
     <link rel="stylesheet" data-th-href="@{'/css/output.css'}" />
     <link rel="stylesheet" data-th-href="@{'/css/style.css'}" />
 
-    <!-- font awesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+      integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+
+    <!-- Google Font: Pacifico -->
+    <link href="https://fonts.googleapis.com/css2?family=Finger+Paint&display=swap" rel="stylesheet">
+
   </head>
-  
+
   <body class="dark:bg-gray-900 bg-gray-100 dark:text-white">
-  
-    <!--  user is logged in : navbar -->
+    <!-- User is logged in: Navbar -->
     <div th:if="${loggedInUser}">
       <div data-th-replace="~{user/user_navbar::user-navbar}"></div>
     </div>
 
-    <!--  user is logged in : sidebar // wee only want the sidebar for profile and dashboard-->
+    <!-- Sidebar for profile and dashboard -->
     <!-- <div th:if="${loggedInUser}">
       <div data-th-replace="~{user/sidebar::sidebar}"></div>
     </div> -->
 
-    <!-- user is not logged : navbar -->
+    <!-- User is not logged in: Navbar -->
     <div th:unless="${loggedInUser}">
       <div data-th-replace="~{navbar :: navbar}"></div>
     </div>
 
-    <!-- main content -->
+    <!-- Main content -->
     <div class="">
       <section data-th-replace="${content}"></section>
     </div>
-    <!-- flow bite content -->
 
-    <!-- common footer -->
+    <!-- Flowbite content -->
+
+    <!-- Footer -->
     <!-- <footer class="p-4">Footer: Learn Code With Durgesh</footer> -->
+
+    <!-- Flowbite JS -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+    <!-- SweetAlert JS -->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <!-- Custom Script -->
     <script data-th-src="@{'/js/script.js'}"></script>
+
     <th:block data-th-replace="${script}"></th:block>
   </body>
 </html>

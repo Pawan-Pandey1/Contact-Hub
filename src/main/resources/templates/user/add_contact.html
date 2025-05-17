@@ -5,6 +5,25 @@
 >
   <head>
     <title>Add Contact</title>
+    <style>
+  /* Navbar styles */
+    .navbar {
+      position: fixed; /* Keep the navbar fixed */
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000; /* Ensure it is above other elements */
+    }
+
+    /* Scrolling div styles */
+    .sm\\:pl-64 {
+      position: relative;
+      z-index: 1; /* Keep it beneath the navbar */
+      overflow: auto; /* Ensure content scrolls within the div */
+      margin-top: 60px; /* Adjust based on navbar height */
+    }
+
+  </style>
   </head>
   <body>
     <div id="content">
