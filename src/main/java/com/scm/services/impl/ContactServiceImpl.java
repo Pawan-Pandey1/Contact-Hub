@@ -102,5 +102,15 @@ public class ContactServiceImpl implements ContactService{
         
     }
 
+    @Override
+    public long countByUser(User user) {
+        return contactRepo.countByUser(user);
+    }
+
+    @Override
+    public long countFavoriteByUser(User user) {
+        return contactRepo.countByUserAndFavoriteTrue(user);
+    }
+
 
 }

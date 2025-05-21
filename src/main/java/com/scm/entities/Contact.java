@@ -33,7 +33,9 @@ public class Contact {
 
     @Column(length=1000)
     private String description;
-    private boolean favorite=false;
+    
+    @Column(name = "favorite")
+    private boolean favorite = false;
     private String websiteLink;
     private String linkedInLink;
     //private List<String>socialLink=new ArrayList<>();

@@ -1,63 +1,66 @@
 package com.scm.controllers;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-
 import com.scm.entities.User;
 import com.scm.helpers.Message;
 import com.scm.helpers.MessageType;
 import com.scm.repositories.UserRepo;
-
 import jakarta.servlet.http.HttpSession;
-
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import java.util.Optional;
 
 @Controller
-
 @RequestMapping("/auth")
 public class AuthController {
-    //Verify Email
 
-@Autowired
-private UserRepo userRepo;
+    @Autowired
+    private UserRepo userRepo;
 
- @GetMapping("/verify-email")
+    @GetMapping("/verify-email")
     public String verifyEmail(
-            @RequestParam("token") String token, HttpSession session) {
+            @RequestParam("token") String token,
+            HttpSession session
+    ) {
+        // Find user by email token
+        Optional<User> userOptional = userRepo.findByEmailToken(token);
 
-        User user = userRepo.findByEmailToken(token).orElse(null);
-
-        if (user != null) {
-            // user fetch hua hai :: process karna hai
-
-            if (user.getEmailToken().equals(token)) {
-                user.setEmailVerified(true);
-                user.setEnabled(true);
-                userRepo.save(user);
-                session.setAttribute("message", Message.builder()
-                        .type(MessageType.green)
-                        .content("You email is verified. Now you can login  ")
-                        .build());
-                return "success_page";
-            }
-
-            session.setAttribute("message", Message.builder()
+        if (userOptional.isEmpty()) {
+            // Invalid token
+            session.setAttribute("message", 
+                Message.builder()
                     .type(MessageType.red)
-                    .content("Email not verified ! Token is not associated with user .")
+                    .content("Invalid verification token")
                     .build());
-            return "error_page";
-
+            return "redirect:/error";
         }
 
-        session.setAttribute("message", Message.builder()
-                .type(MessageType.red)
-                .content("Email not verified ! Token is not associated with user .")
+        User user = userOptional.get();
+
+        if (user.isEmailVerified()) {
+            // Already verified
+            session.setAttribute("message", 
+                Message.builder()
+                    .type(MessageType.blue)
+                    .content("Email already verified")
+                    .build());
+            return "redirect:/login";
+        }
+
+        // Verify user
+        user.setEmailVerified(true);
+        user.setEnabled(true);  // Enable account
+        user.setEmailToken(null);  // Clear verification token
+        userRepo.save(user);
+
+        session.setAttribute("message", 
+            Message.builder()
+                .type(MessageType.green)
+                .content("Email verified successfully! You can now login")
                 .build());
 
-        return "error_page";
+        return "redirect:/login";
     }
-
 }

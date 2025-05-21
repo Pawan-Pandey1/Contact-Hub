@@ -15,9 +15,7 @@
 
     <!-- Feedback Form -->
     <div class="sm:pl-64 pt-20 flex justify-center items-center min-h-screen">
-      <div
-        class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg rounded-lg p-6 w-full max-w-md transition-colors duration-300"
-      >
+      <div class="bg-white dark:bg-gray-800 dark:text-gray-100 shadow-lg rounded-lg p-6 w-full max-w-md transition-colors duration-300">
         <h2 class="text-xl font-semibold text-gray-800 dark:text-gray-200 mb-4 text-center">
           Rate your experience
         </h2>
@@ -25,40 +23,62 @@
           We highly value your feedback! Kindly take a moment to rate your
           experience and provide us with your valuable feedback.
         </p>
-        <!-- Rating Stars -->
-        <div class="stars flex justify-center mb-4">
-          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
-            &#9733;
+        <form th:action="@{/user/feedback}" th:object="${feedbackForm}" method="post" id="feedbackForm">
+          <!-- Rating Stars -->
+          <div class="stars flex justify-center mb-4">
+            <input type="hidden" th:field="*{rating}" id="rating" />
+            <button type="button" class="star text-gray-300 dark:text-gray-500 text-2xl transition" data-value="1">&#9733;</button>
+            <button type="button" class="star text-gray-300 dark:text-gray-500 text-2xl transition" data-value="2">&#9733;</button>
+            <button type="button" class="star text-gray-300 dark:text-gray-500 text-2xl transition" data-value="3">&#9733;</button>
+            <button type="button" class="star text-gray-300 dark:text-gray-500 text-2xl transition" data-value="4">&#9733;</button>
+            <button type="button" class="star text-gray-300 dark:text-gray-500 text-2xl transition" data-value="5">&#9733;</button>
+          </div>
+          <!-- Feedback Textarea -->
+          <textarea
+            th:field="*{message}"
+            class="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 focus:outline-none text-sm transition-colors duration-300 mb-4"
+            rows="4"
+            placeholder="Tell us about your experience!"
+            required
+          ></textarea>
+          <!-- Submit Button -->
+          <button
+            class="w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg mt-2 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
+            type="submit"
+          >
+            Send
           </button>
-          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
-            &#9733;
-          </button>
-          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
-            &#9733;
-          </button>
-          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
-            &#9733;
-          </button>
-          <button class="text-gray-300 dark:text-gray-500 text-2xl transition">
-            &#9733;
-          </button>
-        </div>
-        <!-- Feedback Textarea -->
-        <textarea
-          class="w-full border border-gray-300 dark:border-gray-700 dark:bg-gray-700 dark:text-gray-200 rounded-lg p-3 focus:ring-2 focus:ring-yellow-400 focus:outline-none text-sm transition-colors duration-300"
-          rows="4"
-          placeholder="Tell us about your experience!"
-        ></textarea>
-        <!-- Submit Button -->
-        <button
-          class="w-full bg-yellow-500 hover:bg-yellow-600 dark:bg-yellow-600 dark:hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg mt-4 focus:outline-none focus:ring-2 focus:ring-yellow-400 transition"
-          type="button"
-        >
-          Send
-        </button>
+        </form>
       </div>
     </div>
   </div>
-  <script src="path-to-your-script.js"></script>
+  <script>
+    const stars = document.querySelectorAll('.star');
+    const ratingInput = document.getElementById('rating');
+    stars.forEach((star, idx) => {
+      star.addEventListener('click', function() {
+        ratingInput.value = idx + 1;
+        highlightStars(idx + 1);
+      });
+      star.addEventListener('mouseover', function() {
+        highlightStars(idx + 1);
+      });
+      star.addEventListener('mouseout', function() {
+        highlightStars(ratingInput.value);
+      });
+    });
+    function highlightStars(rating) {
+      stars.forEach((star, idx) => {
+        if (idx < rating) {
+          star.classList.add('text-yellow-400');
+          star.classList.remove('text-gray-300', 'dark:text-gray-500');
+        } else {
+          star.classList.remove('text-yellow-400');
+          star.classList.add('text-gray-300', 'dark:text-gray-500');
+        }
+      });
+    }
+    highlightStars(ratingInput.value || 0);
+  </script>
 </body>
 </html>

@@ -21,7 +21,13 @@
           <!--  profie card -->
           <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl w-full">
             <div class="flex flex-col items-center">
-                <img data-th-src="@{${loggedInUser.profilePic}}" src="path/to/profilePic.jpg" alt="Profile Photo" class="w-44 h-44 rounded-full shadow-lg object-cover mb-4">
+              <img
+                data-th-src="@{${loggedInUser.profilePic != null ? loggedInUser.profilePic : '/images/contactHublogo2.png'}}"
+                src="/images/contactHublogo2.png"
+                onerror="this.onerror=null; this.src='/images/contactHublogo2.png';"
+                alt="Profile Photo"
+                class="w-44 h-44 rounded-full shadow-lg object-cover mb-4"
+              />
                 <h2 class="text-2xl font-semibold mb-2" data-th-text=${loggedInUser.name}>User Name</h2>
                 <p class="text-gray-600 mb-2" data-th-text="${loggedInUser.email}">user.email@example.com</p>
                 <p class="text-gray-600 mb-2" data-th-text="${loggedInUser.phoneNumber}">123-456-7890</p>

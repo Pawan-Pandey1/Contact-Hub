@@ -13,11 +13,13 @@ import com.scm.helpers.Message;
 import com.scm.helpers.MessageType;
 import com.scm.services.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class PageController {
@@ -85,60 +87,46 @@ public class PageController {
 
     // processing register
 
-    @RequestMapping(value = "/do-register", method = RequestMethod.POST)
-    public String processRegister(@Valid @ModelAttribute UserForm userForm, BindingResult rBindingResult,
-            HttpSession session) {
-        System.out.println("Processing registration");
-        // fetch form data
-        // UserForm
-        System.out.println(userForm);
-
-        // validate form data
-        if (rBindingResult.hasErrors()) {
+  @PostMapping("/do-register")
+    public String processRegister(
+        @Valid @ModelAttribute UserForm userForm,
+        BindingResult bindingResult,
+        HttpSession session,
+        HttpServletRequest request
+    ) {
+        // Validation check
+        if (bindingResult.hasErrors()) {
             return "register";
         }
 
-        // TODO::Validate userForm
-
-        // save to database
-
-        // userservice
-
-        // UserForm--> User
-        // User user = User.builder()
-        // .name(userForm.getName())
-        // .email(userForm.getEmail())
-        // .password(userForm.getPassword())
-        // .about(userForm.getAbout())
-        // .phoneNumber(userForm.getPhoneNumber())
-        // .profilePic(
-        // "https://www.pawan.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75")
-        // .build();
-
+        // Create user from form data
         User user = new User();
         user.setName(userForm.getName());
         user.setEmail(userForm.getEmail());
         user.setPassword(userForm.getPassword());
         user.setAbout(userForm.getAbout());
         user.setPhoneNumber(userForm.getPhoneNumber());
-        user.setEnabled(false);
-        user.setProfilePic(
-                "https://www.learncodewithdurgesh.com/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Fdurgesh_sir.35c6cb78.webp&w=1920&q=75");
+        user.setProfilePic("https://default-profile-pic-url");
+        user.setEnabled(false); // Critical: Disable until verified
 
-        User savedUser = userService.saveUser(user);
+        // Get base URL for verification link
+        String siteURL = getSiteURL(request);
+        
+        // Register with email verification
+        userService.registerUserWithVerification(user, siteURL);
 
-        System.out.println("user saved :");
+        session.setAttribute("message", 
+            Message.builder()
+                .content("Registration successful! Check your email for verification link.")
+                .type(MessageType.green)
+                .build());
 
-        // message = "Registration Successful"
-
-        // add the message:
-
-        Message message = Message.builder().content("Registration Successful").type(MessageType.green).build();
-
-        session.setAttribute("message", message);
-
-        // redirect to login page
         return "redirect:/register";
+    }
+
+    private String getSiteURL(HttpServletRequest request) {
+        String siteURL = request.getRequestURL().toString();
+        return siteURL.replace(request.getServletPath(), "");
     }
 
 }

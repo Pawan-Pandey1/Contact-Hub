@@ -5,7 +5,6 @@ import java.util.Optional;
 import java.util.UUID;
 
 import org.slf4j.LoggerFactory;
-
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -19,7 +18,8 @@ import com.scm.services.EmailService;
 import com.scm.services.UserService;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
+
     @Autowired
     private UserRepo userRepo;
 
@@ -27,38 +27,51 @@ public class UserServiceImpl implements UserService{
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    private EmailService emailService;
+    private EmailService emailService; // <-- Uncomment this
 
-    private Logger logger=LoggerFactory.getLogger(this.getClass());
-
-
+    private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Override
     public User saveUser(User user) {
-        //User ID  have to generate
-        String userId=UUID.randomUUID().toString();
+        String userId = UUID.randomUUID().toString();
         user.setUserId(userId);
-        //Password Encode
-        // user.setPassword(userId);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
-
-        //set the user role
         user.setRoleList(List.of(AppConstants.ROLE_USER));
-
-
         logger.info(user.getProvider().toString());
+        return userRepo.save(user);
+    }
 
-        String emailToken=UUID.randomUUID().toString();
-
+    // NEW: Registration with email verification
+   @Override
+    public void registerUserWithVerification(User user, String siteURL) {
+        // Generate user ID and verification token
+        String userId = UUID.randomUUID().toString();
+        String emailToken = UUID.randomUUID().toString();
+        
+        // Set user properties
+        user.setUserId(userId);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRoleList(List.of(AppConstants.ROLE_USER));
+        user.setEnabled(false);
+        user.setEmailVerified(false);
         user.setEmailToken(emailToken);
 
-        User savedUser= userRepo.save(user);
+        // Save user
+        User savedUser = userRepo.save(user);
+        logger.info("New user registered: {}", savedUser.getEmail());
 
-        String emailLink=Helper.getLinkForEmailVerificatiton(emailToken);
-
-        emailService.sendEmail(savedUser.getEmail(), "Verify Account : Smart  Contact Manager - ContactHub", emailLink);
-
-        return savedUser;
+        // Build verification link
+        String verificationLink = siteURL + "/auth/verify-email?token=" + emailToken;
+        
+        // Send verification email
+        emailService.sendEmail(
+            savedUser.getEmail(),
+            "Verify Your Email Address",
+            "Dear " + savedUser.getName() + ",\n\n" +
+            "Please click the link below to complete your registration:\n" +
+            verificationLink + "\n\n" +
+            "Thank you for choosing our service!"
+        );
     }
 
     @Override
@@ -68,8 +81,7 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public Optional<User> updateUser(User user) {
-        User user2=userRepo.findById(user.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
-        //Updating user2 from user
+        User user2 = userRepo.findById(user.getUserId()).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         user2.setName(user.getName());
         user2.setEmail(user.getEmail());
         user2.setPassword(user.getPassword());
@@ -81,43 +93,35 @@ public class UserServiceImpl implements UserService{
         user2.setPhoneVerified(user.isPhoneVerified());
         user2.setProvider(user.getProvider());
         user2.setProviderUserId(user.getProviderUserId());
-
-        //Save the user in database
-        User save=userRepo.save(user2);
+        User save = userRepo.save(user2);
         return Optional.ofNullable(save);
     }
 
-
     @Override
     public void deleteUser(String id) {
-        User user2=userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
+        User user2 = userRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
         userRepo.delete(user2);
     }
 
-
     @Override
     public boolean isUserExist(String userId) {
-        User user2=userRepo.findById(userId).orElse(null);
-        return user2!=null ?true:false;
+        User user2 = userRepo.findById(userId).orElse(null);
+        return user2 != null;
     }
 
     @Override
     public boolean isUserExistByEmail(String email) {
-      User user = userRepo.findByEmail(email).orElse(null);
-      return user!=null ?true:false;
+        User user = userRepo.findByEmail(email).orElse(null);
+        return user != null;
     }
-
-
 
     @Override
     public List<User> getAllUsers() {
         return userRepo.findAll();
     }
 
-     @Override
+    @Override
     public User getUserByEmail(String email) {
         return userRepo.findByEmail(email).orElse(null);
-
     }
-
 }

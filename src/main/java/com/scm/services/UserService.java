@@ -22,5 +22,8 @@ public interface UserService {
 
     User getUserByEmail(String email);
 
+    // NEW: Register user and send verification email
+     void registerUserWithVerification(User user, String siteURL);
+
 
 }

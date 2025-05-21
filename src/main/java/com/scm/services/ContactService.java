@@ -36,4 +36,8 @@ public interface ContactService {
     List<Contact> getByUserId(String userId);
 
     Page<Contact> getByUser(User user,int page,int size,String sortFiled,String sortDirection);
+
+    long countByUser(User user);
+    long countFavoriteByUser(User user);
 }
+

@@ -44,10 +44,11 @@ public class Helper {
 
     }
 
-    public static String getLinkForEmailVerificatiton(String emailToken) {
-    String link="http://localhost:8080/auth/verify-email?token="+ emailToken;
+    //MailStrap related config
+    // public static String getLinkForEmailVerificatiton(String emailToken) {
+    // String link="http://localhost:8080/auth/verify-email?token="+ emailToken;
     
-    return link;
+    // return link;
 
-    }
+    // }
 }

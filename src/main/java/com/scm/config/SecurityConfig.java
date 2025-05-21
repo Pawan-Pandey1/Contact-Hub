@@ -1,26 +1,18 @@
 package com.scm.config;
 
-import java.io.IOException;
-
+import com.scm.services.impl.SecurityCustomUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
-
-import com.scm.services.impl.SecurityCustomUserDetailService;
-
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SecurityConfig {
@@ -29,79 +21,71 @@ public class SecurityConfig {
     private SecurityCustomUserDetailService userDetailService;
 
     @Autowired
-    private OAuthAuthenicationSuccessHandler handler;
+    private OAuthAuthenticationSuccessHandler  handler;
 
     @Autowired
-    private AuthFailureHandler authFailureHandler;
+    private AuthenticationFailureHandler authFailureHandler;
 
-    // Configuration of authentication provider for Spring Security
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
-        DaoAuthenticationProvider daoAuthenticationProvider = new DaoAuthenticationProvider();
-        // Injecting custom user details service
-        daoAuthenticationProvider.setUserDetailsService(userDetailService);
-        // Injecting password encoder
-        daoAuthenticationProvider.setPasswordEncoder(passwordEncoder());
-
-        return daoAuthenticationProvider;
+        DaoAuthenticationProvider provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailService);
+        provider.setPasswordEncoder(passwordEncoder());
+        
+        // Block unverified users from logging in
+        provider.setPreAuthenticationChecks(user -> {
+            if (!((UserDetails) user).isEnabled()) {
+                throw new DisabledException("Account not verified");
+            }
+        });
+        
+        return provider;
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
-         // configuration
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        http.authorizeHttpRequests(authorize -> {
+            authorize.requestMatchers(
+                "/user/**"       // Private endpoints
+            ).authenticated();
 
-        // urls configure kiay hai ki koun se public rangenge aur koun se private
-        // rangenge
-        httpSecurity.authorizeHttpRequests(authorize -> {
-            // Configure public and private endpoints
-            // Uncomment the next line to allow these endpoints without authentication
-            // authorize.requestMatchers("/home", "/register", "/services").permitAll();
-            authorize.requestMatchers("/user/**").authenticated();
+            authorize.requestMatchers(
+                "/", 
+                "/register", 
+                "/login", 
+                "/auth/verify-email",  // Email verification endpoint
+                "/css/**", 
+                "/js/**"               // Static resources
+            ).permitAll();
+
             authorize.anyRequest().permitAll();
         });
 
-        // //Form default login
-        // httpSecurity.formLogin(Customizer.withDefaults());
-        httpSecurity.formLogin(formLogin -> {
-
-            //
-            formLogin.loginPage("/login");
-            formLogin.loginProcessingUrl("/authenticate");
-            formLogin.successForwardUrl("/user/profile");
-            // formLogin.failureForwardUrl("/login?error=true");
-            // formLogin.defaultSuccessUrl("/home");
-            formLogin.usernameParameter("email");
-            formLogin.passwordParameter("password");
-
-
-            //  formLogin.failureHandler(new AuthenticationFailureHandler() {
-
-            //     @Override
-            //     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
-            //             AuthenticationException exception) throws IOException, ServletException {
-            //         // TODO Auto-generated method stub
-            //         throw new UnsupportedOperationException("Unimplemented method 'onAuthenticationFailure'");
-            //     }});
-
-            formLogin.failureHandler(authFailureHandler);
-           
-        });
-        httpSecurity.csrf(AbstractHttpConfigurer::disable);
-
-        httpSecurity.logout(logoutForm -> {
-            logoutForm.logoutUrl("/do-logout");
-            logoutForm.logoutSuccessUrl("/login?logout=true");
+        // Form login configuration
+        http.formLogin(formLogin -> {
+            formLogin.loginPage("/login")
+                    .loginProcessingUrl("/authenticate")
+                    .usernameParameter("email")
+                    .passwordParameter("password")
+                    .successForwardUrl("/user/profile")
+                    .failureHandler(authFailureHandler);
         });
 
-        // oauth configurations
-        httpSecurity.oauth2Login(oauth -> {
-        oauth.loginPage("/login");
-        oauth.successHandler(handler);
+        // OAuth2 login configuration
+        http.oauth2Login(oauth -> {
+            oauth.loginPage("/login")
+                 .successHandler(handler);
         });
 
+        // Logout configuration
+        http.logout(logout -> {
+            logout.logoutUrl("/do-logout")
+                  .logoutSuccessUrl("/login?logout=true");
+        });
 
-        // Build the security configuration
-        return httpSecurity.build();
+        http.csrf(AbstractHttpConfigurer::disable);
+
+        return http.build();
     }
 
     @Bean
