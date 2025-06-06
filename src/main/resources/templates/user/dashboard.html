@@ -59,49 +59,32 @@
 
                
             <!-- Statistics Section -->
+            <!-- Statistics Section -->
             <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
-                <h2 class="text-xl font-semibold mb-4">Your Statistics</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-                    <div class="text-center">
-                        <p class="text-2xl font-bold" th:text="${totalContacts}">0</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Total Contacts</p>
-                    </div>
-                    <div class="text-center">
-                        <p class="text-2xl font-bold" th:text="${favoriteContacts}">0</p>
-                        <p class="text-sm text-gray-600 dark:text-gray-300">Favorite Contacts</p>
-                    </div>
-                    <div class="text-center">
+            <h2 class="text-xl font-semibold mb-6">Your Statistics</h2>
+            
+            <div class="flex flex-col gap-4">
+                <div class="flex justify-between items-center border-b border-gray-300 dark:border-gray-600 pb-2">
+                <span class="text-gray-800 dark:text-gray-200 font-medium">Total Contacts</span>
+                <span class="text-xl font-bold text-gray-900 dark:text-white" th:text="${totalContacts}">0</span>
+                </div>
+                <div class="flex justify-between items-center border-b border-gray-300 dark:border-gray-600 pb-2">
+                <span class="text-gray-800 dark:text-gray-200 font-medium">Favorite Contacts</span>
+                <span class="text-xl font-bold text-gray-900 dark:text-white" th:text="${favoriteContacts}">0</span>
+                </div>
+            </div>
+            </div>
+
+                    <!-- <div class="text-center">
                         <p class="text-2xl font-bold" th:text="${totalFeedbacks}">0</p>
                         <p class="text-sm text-gray-600 dark:text-gray-300">Feedback Given</p>
                     </div>
                     <div class="text-center">
                         <p class="text-2xl font-bold">—</p>
                         <p class="text-sm text-gray-600 dark:text-gray-300">Profile Updates</p>
-                    </div>
+                    </div> -->
                 </div>
             </div>
-
-                <!-- Recent Activities -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md mb-8">
-                    <h2 class="text-xl font-semibold mb-4">Recent Activities</h2>
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-                        <li class="py-2 text-gray-700 dark:text-gray-300">Added a new contact: John Doe</li>
-                        <li class="py-2 text-gray-700 dark:text-gray-300">Updated profile information</li>
-                        <li class="py-2 text-gray-700 dark:text-gray-300">Shared feedback on \"ContactHub\"</li>
-                        <li class="py-2 text-gray-700 dark:text-gray-300">Exported contact list</li>
-                    </ul>
-                </div>
-
-                <!-- Notifications -->
-                <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-md">
-                    <h2 class="text-xl font-semibold mb-4">Notifications</h2>
-                    <ul class="divide-y divide-gray-200 dark:divide-gray-700">
-                        <li class="py-2 text-gray-700 dark:text-gray-300">Your profile was updated successfully.</li>
-                        <li class="py-2 text-gray-700 dark:text-gray-300">New feedback received from admin.</li>
-                        <li class="py-2 text-gray-700 dark:text-gray-300">3 new contacts added to your list.</li>
-                        <li class="py-2 text-gray-700 dark:text-gray-300">Reminder: Update your profile picture.</li>
-                    </ul>
-                </div>
             </div>
         </div>
     </div>
