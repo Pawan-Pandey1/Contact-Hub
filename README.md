@@ -1,6 +1,6 @@
 
 <p align="center">
-  <img src="Images/scm3.jpg" alt="ContactHub Banner" width="600"/>
+  <img src="C:\Users\Asus\SCM\scm2.0\Images\contactHublogo2.png" alt="ContactHub Banner" width="600"/>
 </p>
 
 <h1 align="center">ContactHub</h1>
@@ -49,16 +49,32 @@
 ## Screenshots
 
 ### Home Page
-![Home Page](Images/scm3.jpg)
+![Home Page](C:\Users\Asus\SCM\scm2.0\Images\scm1.jpg)
 
 ### Signup Page
-![Signup Page](Images/scm1.jpg)
+![New user Signup Page](Images/scm2.jpg)
 
-### Login Page
-![Login Page](Images/scm2.jpg)
+### Login/Signup Page
+![Signup Page using Google and GitHub](C:\Users\Asus\SCM\scm2.0\Images\scm2.jpg)
 
-### Contact Details & Dashboard
-![Contact Details](Images/scm8.jpg)
+### Profile Page
+![User Profile Page](C:\Users\Asus\SCM\scm2.0\Images\scm4.jpg)
+
+### User Dashboard
+![ User Dashboard Page](C:\Users\Asus\SCM\scm2.0\Images\scm5.jpg)
+
+### Add New Contact Page
+![ Adding new contact Page](C:\Users\Asus\SCM\scm2.0\Images\scm6.jpg)
+
+### All User contacts Page 
+![View all contacts](C:\Users\Asus\SCM\scm2.0\Images\scm7.jpg)
+
+### View Contact Details Page
+![Contact details](C:\Users\Asus\SCM\scm2.0\Images\scm8.jpg)
+
+### User Feedback Page
+![Contact details](C:\Users\Asus\SCM\scm2.0\Images\scm8.jpg)
+
 
 ---
 
